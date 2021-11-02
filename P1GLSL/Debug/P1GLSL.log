@@ -1,0 +1,10 @@
+﻿cl : línea de comandos warning D9035: La opción 'Gm' está desusada y se quitará en próximas versiones
+  main.cpp
+C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\Solucion\P1GLSL\scr\main.cpp(92,22): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
+          with
+          [
+              T=float
+          ]
+C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\Solucion\P1GLSL\scr\main.cpp(159,27): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\Solucion\P1GLSL\scr\main.cpp(161,27): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+  P1GLSL.vcxproj -> C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\Solucion\P1GLSL\Debug\P1GLSL.exe
