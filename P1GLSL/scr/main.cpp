@@ -6,6 +6,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 
+const float ORBIT_RADIUS = 10.0f;
+
 
 //Idenficadores de los objetos de la escena
 int objId, objId2, objId3 = -1;
@@ -21,7 +23,12 @@ void mouseMotionFunc(int x, int y);
 glm::vec3 calcularPuntoBezier(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, float t);
 
 //Variables de la cámara
-float cameraX = 0.0f, cameraZ = -10.0f, cameraAlphaY = 0.0f;
+float cameraX = 0.0f, cameraZ = -10.0f, cameraAlphaY = 0.0f, cameraAlphaX = 0.0f;
+glm::vec3 lookAt = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 right = glm::vec3(-10.0f, 0.0f, -10.0f);
+
+//Variables del viewport
+int w, h;
 
 int main(int argc, char** argv)
 {
@@ -84,6 +91,7 @@ int main(int argc, char** argv)
 void resizeFunc(int width, int height)
 {
 	float a = float (width) / float(height);
+	w = width; h = height;
 	
 	float n = 1.0f;
 	float f = 60.0f;
@@ -214,19 +222,23 @@ void keyboardFunc(unsigned char key, int x, int y)
 			break;
 	}
 	glm::mat4 camera_movement = glm::mat4(1.0f);
-	//Traslación
+	//Inicializar estado actual de cámara (traslación)
 	camera_movement[3].x = cameraX;
 	camera_movement[3].z = cameraZ;
 	//Rotación
-	// Idea 1 -> camera_movement = glm::rotate(camera_movement, glm::radians(cameraAlphaY), glm::vec3(0.0f, 1.0f, 0.0f));
-	// Idea 2 -> camera_movement[0].x = glm::cos(glm::radians(cameraAlphaY));
-	// Idea 2 -> camera_movement[0].z = glm::sin(glm::radians(cameraAlphaY));
-	// Idea 2 -> camera_movement[2].x = -glm::sin(glm::radians(cameraAlphaY));
-	// Idea 2 -> camera_movement[2].z = glm::cos(glm::radians(cameraAlphaY));
 	glm::mat4 center_camera = glm::translate(camera_movement, glm::vec3(-cameraX, 0.0f, -cameraZ));  // Matriz para trasladar al centro
 	glm::mat4 rotate_camera = glm::rotate(center_camera, glm::radians(cameraAlphaY), glm::vec3(0.0f, 1.0f, 0.0f));
 	glm::mat4 final_camera_state = glm::translate(rotate_camera, glm::vec3(cameraX, 0.0f, cameraZ));
 	IGlib::setViewMat(final_camera_state);
+
+	lookAt.x = cameraX;
+	lookAt.z = cameraZ;
+	right.x = cameraX;
+	right.z = cameraZ;
+	lookAt = glm::vec3(lookAt.x + ORBIT_RADIUS * glm::sin(glm::radians(-cameraAlphaY)), 0.0f, lookAt.z + ORBIT_RADIUS * glm::cos(glm::radians(cameraAlphaY)));
+	right = glm::vec3(right.x + ORBIT_RADIUS * -glm::cos(glm::radians(-cameraAlphaY)), 0.0f, right.z + ORBIT_RADIUS * -glm::cos(glm::radians(cameraAlphaY)));
+	std::cout << "Lookat x: " << lookAt.x << " - lookAt z: " << lookAt.z << std::endl;
+	std::cout << "Right x: " << right.x << " - Right z: " << right.z << std::endl;
 }
 
 void mouseFunc(int button, int state, int x, int y)
@@ -245,4 +257,32 @@ void mouseFunc(int button, int state, int x, int y)
 
 void mouseMotionFunc(int x, int y)
 {
+	glm::mat4 camera_orbit = glm::mat4(1.0f);
+	//Inicializar estado actual de cámara (traslación)
+	camera_orbit[3].x = cameraX;
+	camera_orbit[3].z = cameraZ;
+	//Rotación
+	glm::mat4 center_camera = glm::translate(camera_orbit, glm::vec3(-cameraX, 0.0f, -cameraZ));  // Matriz para trasladar al centro
+	glm::mat4 rotate_camera = glm::rotate(center_camera, glm::radians(cameraAlphaY), glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 actual_camera_state = glm::translate(rotate_camera, glm::vec3(cameraX, 0.0f, cameraZ));
+
+	float movX = 0.0f - lookAt.x;
+	float movZ = 0.0f - lookAt.z;
+	//Calcular angle con respecto al cambio en la x del mouse click en el viewport
+	float angleX = x;
+	float angleZ = y;
+
+	glm::vec3 normalized_lookAt = glm::normalize(lookAt);
+	glm::vec3 normalized_right = glm::normalize(right);
+
+	/*std::cout << "Cross product X: " << glm::cross(normalized_lookAt, normalized_right).x << " Cross product y: " <<
+		glm::cross(normalized_lookAt, normalized_right).y <<
+		" Cross product z: " << glm::cross(normalized_lookAt, normalized_right).z << std::endl;*/
+
+	glm::mat4 translate_to_rot_center = glm::translate(actual_camera_state, glm::vec3(movX, 0.0f, movZ));
+	glm::mat4 rotation_from_rot_centerX = glm::rotate(translate_to_rot_center, glm::radians(angleX), glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 rotation_from_rot_centerZ = glm::rotate(rotation_from_rot_centerX, glm::radians(angleZ), glm::vec3(1.0f, 0.0f, 0.0f));
+	//glm::mat4 rotation_from_rot_centerZ = glm::rotate(rotation_from_rot_centerX, glm::radians(angleZ), glm::cross(normalized_lookAt, normalized_right));
+	glm::mat4 final_view = glm::translate(rotation_from_rot_centerZ, glm::vec3(-movX, 0.0f, -movZ));
+	IGlib::setViewMat(final_view);
 }
