@@ -1,12 +1,1 @@
-﻿cl : línea de comandos warning D9035: La opción 'Gm' está desusada y se quitará en próximas versiones
-  main.cpp
-C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\Solucion\P1GLSL\scr\main.cpp(100,22): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
-          with
-          [
-              T=float
-          ]
-C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\Solucion\P1GLSL\scr\main.cpp(167,27): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\Solucion\P1GLSL\scr\main.cpp(169,27): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\Solucion\P1GLSL\scr\main.cpp(272,15): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\Solucion\P1GLSL\scr\main.cpp(273,15): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
-  P1GLSL.vcxproj -> C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\Solucion\P1GLSL\Debug\P1GLSL.exe
+﻿  P1GLSL.vcxproj -> C:\Users\shyki\OneDrive\Escritorio\AnaBelenFM\Máster  URJC\Primer semestre\GRÁFICOS 3D\Bloque III Prácticas\Práctica I -  Introducción a GLSL\Solución de la práctica\3DGraphicsShaders\P1GLSL\Debug\P1GLSL.exe

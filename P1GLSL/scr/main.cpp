@@ -1,4 +1,5 @@
 #include "BOX.h"
+#include "PYRAMID.h"
 #include <IGL/IGlib.h>
 
 #define GLM_FORCE_RADIANS
@@ -10,7 +11,7 @@ const float ORBIT_RADIUS = 10.0f;
 
 
 //Idenficadores de los objetos de la escena
-int objId, objId2, objId3 = -1;
+int objId, objId2, objId3, objId4 = -1;
 
 //Declaración de CB
 void resizeFunc(int width, int height);
@@ -49,10 +50,16 @@ int main(int argc, char** argv)
 	objId3 = IGlib::createObj(cubeNTriangleIndex, cubeNVertex, cubeTriangleIndex,
 		cubeVertexPos, cubeVertexColor, cubeVertexNormal, cubeVertexTexCoord, cubeVertexTangent);
 
+	objId4 = IGlib::createObj(pyramidNTriangleIndex, pyramidNVertex, pyramidTriangleIndex,
+		pyramidVertexPos, pyramidVertexColor, pyramidVertexNormal, pyramidVertexTexCoord, pyramidVertexTangent);
+
 	glm::mat4 modelMat = glm::mat4(1.0f);
 	IGlib::setModelMat(objId, modelMat);
 	IGlib::setModelMat(objId2, modelMat);
 	IGlib::setModelMat(objId3, modelMat);
+
+	IGlib::setModelMat(objId4, modelMat);
+
 	//Incluir texturas aquí.
 	//IGlib::addColorTex(objId2, "../img/color.png");
 	IGlib::addColorTex(objId, "../img/texturaCustom.png");
@@ -156,10 +163,18 @@ void idleFunc()
 	glm::mat4 third_cube_translate = glm::translate(glm::mat4(1.0f), punto_bezier_curva);
 	glm::mat4 model_third_cube = third_cube_translate;
 
+	glm::mat4 pyramid_rotate = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0.0f, 0.0f, 1.0f));
+	glm::mat4 pyramid_translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 3.0f, 0.0f));
+	glm::mat4 model_pyramid = pyramid_rotate * pyramid_translate;
+
+
+
 	//Establecemos el estado de los modelos
 	IGlib::setModelMat(objId, model_frist_cube);
 	IGlib::setModelMat(objId2, model_second_cube);
 	IGlib::setModelMat(objId3, model_third_cube);
+
+	IGlib::setModelMat(objId4, model_pyramid);
 }
 
 glm::vec3 calcularPuntoBezier(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, float t)
