@@ -1,0 +1,13 @@
+﻿  main.cpp
+C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\ENTREGA\3DGraphicsShaders\P1GLSL\scr\main.cpp(192,22): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
+          with
+          [
+              T=float
+          ]
+C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\ENTREGA\3DGraphicsShaders\P1GLSL\scr\main.cpp(265,27): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\ENTREGA\3DGraphicsShaders\P1GLSL\scr\main.cpp(267,27): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\ENTREGA\3DGraphicsShaders\P1GLSL\scr\main.cpp(367,15): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\ENTREGA\3DGraphicsShaders\P1GLSL\scr\main.cpp(368,15): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+main.obj : error LNK2001: símbolo externo "public: __thiscall Assimp::Importer::~Importer(void)" (??1Importer@Assimp@@QAE@XZ) sin resolver
+main.obj : error LNK2001: símbolo externo "public: __thiscall Assimp::Importer::Importer(void)" (??0Importer@Assimp@@QAE@XZ) sin resolver
+C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\ENTREGA\3DGraphicsShaders\P1GLSL\Release\P1GLSL.exe : fatal error LNK1120: 2 externos sin resolver

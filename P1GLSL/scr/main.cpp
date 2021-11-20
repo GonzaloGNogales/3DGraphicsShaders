@@ -6,9 +6,13 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
+#include <vector>
+
+#include <assimp/Importer.hpp> // C++ importer interface
+#include <assimp/scene.h> // Output data structure
+#include <assimp/postprocess.h> // Post processing flags
 
 const float ORBIT_RADIUS = 10.0f;
-
 
 //Idenficadores de los objetos de la escena
 int objId, objId2, objId3, objId4 = -1;
@@ -23,6 +27,88 @@ void mouseMotionFunc(int x, int y);
 //Header funciones
 glm::vec3 calcularPuntoBezier(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, float t);
 
+//Variables para cargar modelos externos con Assimp
+std::vector<float> vertexBuff;
+std::vector<uint16_t> indexBuff;
+
+//Función de importación de modelos Assimp
+bool assimpGetMeshData(const aiMesh* mesh) {
+	aiFace* face;
+
+	//Procesar la morfología de la malla
+	for (unsigned int v = 0; v < mesh->mNumVertices; v++) {
+		vertexBuff.push_back(mesh->mVertices[v].x);
+		vertexBuff.push_back(mesh->mVertices[v].y);
+		vertexBuff.push_back(mesh->mVertices[v].z);
+
+		vertexBuff.push_back(mesh->mNormals[v].x);
+		vertexBuff.push_back(mesh->mNormals[v].y);
+		vertexBuff.push_back(mesh->mNormals[v].z);
+
+		if (mesh->HasTextureCoords(0)) {
+			vertexBuff.push_back(mesh->mTextureCoords[0][v].x);
+			vertexBuff.push_back(mesh->mTextureCoords[0][v].y);
+		}
+		else {
+			vertexBuff.push_back(0);
+			vertexBuff.push_back(0);
+		}
+
+		vertexBuff.push_back(mesh->mTangents[v].x);
+		vertexBuff.push_back(mesh->mTangents[v].y);
+		vertexBuff.push_back(mesh->mTangents[v].z);
+
+	}
+
+	//Procesar la topología (cómo están ordenados los vértices)
+	for (unsigned int f = 0; f < mesh->mNumFaces; f++) {
+		face = &mesh->mFaces[f];
+		indexBuff.push_back(face->mIndices[0]);
+		indexBuff.push_back(face->mIndices[1]);
+		indexBuff.push_back(face->mIndices[2]);
+	}
+
+	return true;
+}
+
+bool assimpImportOBJ(const std::string& pFile) {
+	// Create an instance of the Importer class
+	Assimp::Importer importer;
+
+	// And have it read the given file with some example postprocessing
+	// Usually - if speed is not the most important aspect for you - you'll
+	// probably to request more postprocessing than we do in this example.
+	const aiScene* scene = importer.ReadFile(pFile,
+		aiProcess_CalcTangentSpace |
+		aiProcess_Triangulate |
+		aiProcess_JoinIdenticalVertices |
+		aiProcess_SortByPType);
+
+	/*modelScene = importer.ReadFile(file, aiProcess_MakeLeftHanded | aiProcess_FlipWindingOrder | aiProcess_FlipUVs | aiProcess_PreTransformVertices |
+      aiProcess_CalcTangentSpace |
+      aiProcess_GenSmoothNormals |
+      aiProcess_Triangulate |
+      aiProcess_FixInfacingNormals |
+      aiProcess_FindInvalidData |
+      aiProcess_ValidateDataStructure | 0
+	);*/
+
+	// If the import failed, report it
+	if (!scene) {
+		std::cout << importer.GetErrorString() << std::endl;
+		return false;
+	}
+
+	// Now we can access the file's contents.
+	if (assimpGetMeshData(scene->mMeshes[0]))
+		std::cout << "El fichero OBJ se ha cargado correctamente!" << std::endl;
+	else
+		std::cout << "Assimp no ha conseguido cargar el fichero OBJ :(" << std::endl;
+
+	// We're done. Everything will be cleaned up by the importer destructor
+	return true;
+}
+
 //Variables de la cámara
 float cameraX = 0.0f, cameraZ = -10.0f, cameraAlphaY = 0.0f, cameraAlphaX = 0.0f;
 glm::vec3 lookAt = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -31,9 +117,8 @@ glm::vec3 right = glm::vec3(-10.0f, 0.0f, -10.0f);
 //Variables del viewport
 int w, h;
 
-int main(int argc, char** argv)
-{
-	std::locale::global(std::locale("spanish"));// acentos ;)
+int main(int argc, char** argv) {
+	std::locale::global(std::locale("spanish"));  //acentos ;)
 	if (!IGlib::init("../shaders_P1/shader.v3.vert", "../shaders_P1/shader.v3.frag"))
 		return -1;
    
@@ -49,7 +134,6 @@ int main(int argc, char** argv)
 		cubeVertexPos, cubeVertexColor, cubeVertexNormal, cubeVertexTexCoord, cubeVertexTangent);
 	objId3 = IGlib::createObj(cubeNTriangleIndex, cubeNVertex, cubeTriangleIndex,
 		cubeVertexPos, cubeVertexColor, cubeVertexNormal, cubeVertexTexCoord, cubeVertexTangent);
-
 	objId4 = IGlib::createObj(pyramidNTriangleIndex, pyramidNVertex, pyramidTriangleIndex,
 		pyramidVertexPos, pyramidVertexColor, pyramidVertexNormal, pyramidVertexTexCoord, pyramidVertexTangent);
 
@@ -61,8 +145,10 @@ int main(int argc, char** argv)
 	IGlib::setModelMat(objId4, modelMat);
 
 	//Incluir texturas aquí.
-	//IGlib::addColorTex(objId2, "../img/color.png");
 	IGlib::addColorTex(objId, "../img/texturaCustom.png");
+	IGlib::addColorTex(objId2, "../img/texturaCustom.png");
+	IGlib::addColorTex(objId3, "../img/texturaCustom.png");
+	IGlib::addColorTex(objId4, "../img/texturaCustom.png");
 
 	//Matriz proyección
 	float n = 1.0f;
@@ -95,8 +181,7 @@ int main(int argc, char** argv)
 	return 0;
 }
 
-void resizeFunc(int width, int height)
-{
+void resizeFunc(int width, int height) {
 	float a = float (width) / float(height);
 	w = width; h = height;
 	
@@ -116,8 +201,7 @@ void resizeFunc(int width, int height)
 float angle = 0.0f; 
 float bezier_t = 0.0f;
 const float pi = 2 * acos(0.0f);
-void idleFunc()
-{
+void idleFunc() {
 	//Matrices modelo por primer y segundo cubo
 	angle = (angle < 2.0f * pi) ? angle + 0.01f: 0.0f;
 	glm::vec3 punto_bezier_curva = glm::vec3(0.0f);
@@ -177,16 +261,14 @@ void idleFunc()
 	IGlib::setModelMat(objId4, model_pyramid);
 }
 
-glm::vec3 calcularPuntoBezier(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, float t)
-{
+glm::vec3 calcularPuntoBezier(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, float t) {
 	float coeficiente_punto0 = pow((1 - t), 2);
 	float coeficiente_punto1 = 2 * t * (1 - t);
 	float coeficiente_punto2 = pow(t, 2);	    
 	return (coeficiente_punto0 * p0) + (coeficiente_punto1 * p1) + (coeficiente_punto2 * p2);
 }
 
-void keyboardFunc(unsigned char key, int x, int y)
-{
+void keyboardFunc(unsigned char key, int x, int y) {
 	std::cout << "Se ha pulsado la tecla " << key << std::endl << std::endl;
 	const float SPEED = 1.0f;
 	const float ALPHA = 5.0f;
@@ -256,8 +338,7 @@ void keyboardFunc(unsigned char key, int x, int y)
 	std::cout << "Right x: " << right.x << " - Right z: " << right.z << std::endl;
 }
 
-void mouseFunc(int button, int state, int x, int y)
-{
+void mouseFunc(int button, int state, int x, int y) {
 	if (state==0)
 		std::cout << "Se ha pulsado el botón ";
 	else
@@ -270,8 +351,7 @@ void mouseFunc(int button, int state, int x, int y)
 	std::cout << "en la posición " << x << " " << y << std::endl << std::endl;
 }
 
-void mouseMotionFunc(int x, int y)
-{
+void mouseMotionFunc(int x, int y) {
 	glm::mat4 camera_orbit = glm::mat4(1.0f);
 	//Inicializar estado actual de cámara (traslación)
 	camera_orbit[3].x = cameraX;
