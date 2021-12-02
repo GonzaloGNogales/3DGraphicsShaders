@@ -15,7 +15,7 @@
 const float ORBIT_RADIUS = 10.0f;
 
 //Idenficadores de los objetos de la escena
-int objId, objId2, objId3, objId4 = -1;
+int objId, objId2, objId3, objId4, objId5 = -1;
 
 //Declaración de CB
 void resizeFunc(int width, int height);
@@ -29,7 +29,11 @@ glm::vec3 calcularPuntoBezier(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, float t)
 
 //Variables para cargar modelos externos con Assimp
 std::vector<float> vertexBuff;
-std::vector<uint16_t> indexBuff;
+std::vector<float> normalBuff;
+std::vector<float> textureCoordBuff;
+std::vector<float> colorBuff;
+std::vector<float> tangentBuff;
+std::vector<unsigned> indexBuff;
 
 //Función de importación de modelos Assimp
 bool assimpGetMeshData(const aiMesh* mesh) {
@@ -41,22 +45,26 @@ bool assimpGetMeshData(const aiMesh* mesh) {
 		vertexBuff.push_back(mesh->mVertices[v].y);
 		vertexBuff.push_back(mesh->mVertices[v].z);
 
-		vertexBuff.push_back(mesh->mNormals[v].x);
-		vertexBuff.push_back(mesh->mNormals[v].y);
-		vertexBuff.push_back(mesh->mNormals[v].z);
+		normalBuff.push_back(mesh->mNormals[v].x);
+		normalBuff.push_back(mesh->mNormals[v].y);
+		normalBuff.push_back(mesh->mNormals[v].z);
 
 		if (mesh->HasTextureCoords(0)) {
-			vertexBuff.push_back(mesh->mTextureCoords[0][v].x);
-			vertexBuff.push_back(mesh->mTextureCoords[0][v].y);
+			textureCoordBuff.push_back(mesh->mTextureCoords[0][v].x);
+			textureCoordBuff.push_back(mesh->mTextureCoords[0][v].y);
 		}
 		else {
-			vertexBuff.push_back(0);
-			vertexBuff.push_back(0);
+			textureCoordBuff.push_back(0);
+			textureCoordBuff.push_back(0);
 		}
 
-		vertexBuff.push_back(mesh->mTangents[v].x);
-		vertexBuff.push_back(mesh->mTangents[v].y);
-		vertexBuff.push_back(mesh->mTangents[v].z);
+		colorBuff.push_back(0.5);
+		colorBuff.push_back(0.5);
+		colorBuff.push_back(0.5);
+
+		tangentBuff.push_back(mesh->mTangents[v].x);
+		tangentBuff.push_back(mesh->mTangents[v].y);
+		tangentBuff.push_back(mesh->mTangents[v].z);
 
 	}
 
@@ -99,11 +107,15 @@ bool assimpImportOBJ(const std::string& pFile) {
 		return false;
 	}
 
+	std::cout << "Num meshes: " << scene->mNumMeshes << std::endl;
+
 	// Now we can access the file's contents.
 	if (assimpGetMeshData(scene->mMeshes[0]))
 		std::cout << "El fichero OBJ se ha cargado correctamente!" << std::endl;
-	else
+	else {
 		std::cout << "Assimp no ha conseguido cargar el fichero OBJ :(" << std::endl;
+		return false;
+	}
 
 	// We're done. Everything will be cleaned up by the importer destructor
 	return true;
@@ -136,6 +148,11 @@ int main(int argc, char** argv) {
 		cubeVertexPos, cubeVertexColor, cubeVertexNormal, cubeVertexTexCoord, cubeVertexTangent);
 	objId4 = IGlib::createObj(pyramidNTriangleIndex, pyramidNVertex, pyramidTriangleIndex,
 		pyramidVertexPos, pyramidVertexColor, pyramidVertexNormal, pyramidVertexTexCoord, pyramidVertexTangent);
+	
+	//Carga Assimp
+	assimpImportOBJ("./sphere.obj");
+	objId5 = IGlib::createObj(indexBuff.size()/3, vertexBuff.size()/3, indexBuff.data(), 
+		vertexBuff.data(), colorBuff.data(), normalBuff.data(), textureCoordBuff.data(), tangentBuff.data());
 
 	glm::mat4 modelMat = glm::mat4(1.0f);
 	IGlib::setModelMat(objId, modelMat);
@@ -144,11 +161,14 @@ int main(int argc, char** argv) {
 
 	IGlib::setModelMat(objId4, modelMat);
 
+	IGlib::setModelMat(objId5, modelMat);
+
 	//Incluir texturas aquí.
 	IGlib::addColorTex(objId, "../img/texturaCustom.png");
 	IGlib::addColorTex(objId2, "../img/texturaCustom.png");
 	IGlib::addColorTex(objId3, "../img/texturaCustom.png");
 	IGlib::addColorTex(objId4, "../img/texturaCustom.png");
+	IGlib::addColorTex(objId5, "../img/texturaCustom.png");
 
 	//Matriz proyección
 	float n = 1.0f;
@@ -259,6 +279,7 @@ void idleFunc() {
 	IGlib::setModelMat(objId3, model_third_cube);
 
 	IGlib::setModelMat(objId4, model_pyramid);
+	IGlib::setModelMat(objId5, model_pyramid);
 }
 
 glm::vec3 calcularPuntoBezier(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, float t) {

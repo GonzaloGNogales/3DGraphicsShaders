@@ -44,6 +44,7 @@
     <None Include="..\shaders_P1\shader.v3.vert">
       <Filter>shaders</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="scr\BOX.h">
@@ -52,5 +53,10 @@
     <ClInclude Include="scr\PYRAMID.h">
       <Filter>src</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="scr\sphere.obj">
+      <Filter>src</Filter>
+    </Object>
   </ItemGroup>
 </Project>

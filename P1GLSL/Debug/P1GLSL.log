@@ -1,6 +1,14 @@
-﻿main.obj : warning LNK4075: se omite '/EDITANDCONTINUE' debido a la especificación '/SAFESEH'
-main.obj : error LNK2019: símbolo externo "public: __thiscall Assimp::Importer::Importer(void)" (??0Importer@Assimp@@QAE@XZ) sin resolver al que se hace referencia en la función "bool __cdecl assimpImportOBJ(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (?assimpImportOBJ@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
-main.obj : error LNK2019: símbolo externo "public: __thiscall Assimp::Importer::~Importer(void)" (??1Importer@Assimp@@QAE@XZ) sin resolver al que se hace referencia en la función "bool __cdecl assimpImportOBJ(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (?assimpImportOBJ@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
-main.obj : error LNK2019: símbolo externo "public: struct aiScene const * __thiscall Assimp::Importer::ReadFile(char const *,unsigned int)" (?ReadFile@Importer@Assimp@@QAEPBUaiScene@@PBDI@Z) sin resolver al que se hace referencia en la función "public: struct aiScene const * __thiscall Assimp::Importer::ReadFile(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &,unsigned int)" (?ReadFile@Importer@Assimp@@QAEPBUaiScene@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@I@Z)
-main.obj : error LNK2019: símbolo externo "public: char const * __thiscall Assimp::Importer::GetErrorString(void)const " (?GetErrorString@Importer@Assimp@@QBEPBDXZ) sin resolver al que se hace referencia en la función "bool __cdecl assimpImportOBJ(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (?assimpImportOBJ@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
-C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\ENTREGA\3DGraphicsShaders\P1GLSL\Debug\P1GLSL.exe : fatal error LNK1120: 4 externos sin resolver
+﻿cl : línea de comandos warning D9035: La opción 'Gm' está desusada y se quitará en próximas versiones
+  main.cpp
+C:\Users\gonza\OneDrive\Escritorio\PRAC 1 G3D WORKBENCH\GitHub Workbench\3DGraphicsShaders\P1GLSL\scr\main.cpp(212,22): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
+          with
+          [
+              T=float
+          ]
+C:\Users\gonza\OneDrive\Escritorio\PRAC 1 G3D WORKBENCH\GitHub Workbench\3DGraphicsShaders\P1GLSL\scr\main.cpp(286,27): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\gonza\OneDrive\Escritorio\PRAC 1 G3D WORKBENCH\GitHub Workbench\3DGraphicsShaders\P1GLSL\scr\main.cpp(288,27): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\gonza\OneDrive\Escritorio\PRAC 1 G3D WORKBENCH\GitHub Workbench\3DGraphicsShaders\P1GLSL\scr\main.cpp(388,15): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\gonza\OneDrive\Escritorio\PRAC 1 G3D WORKBENCH\GitHub Workbench\3DGraphicsShaders\P1GLSL\scr\main.cpp(389,15): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+  P1GLSL.vcxproj -> C:\Users\gonza\OneDrive\Escritorio\PRAC 1 G3D WORKBENCH\GitHub Workbench\3DGraphicsShaders\P1GLSL\Debug\P1GLSL.exe
+  Copying native Assimp libraries...
+  C:\Users\gonza\OneDrive\Escritorio\PRAC 1 G3D WORKBENCH\GitHub Workbench\3DGraphicsShaders\P1GLSL\Debug\P1GLSL.deps.json
