@@ -62,10 +62,11 @@ bool assimpGetMeshData(const aiMesh* mesh) {
 		colorBuff.push_back(0.5);
 		colorBuff.push_back(0.5);
 
-		tangentBuff.push_back(mesh->mTangents[v].x);
-		tangentBuff.push_back(mesh->mTangents[v].y);
-		tangentBuff.push_back(mesh->mTangents[v].z);
-
+		if (mesh->HasTangentsAndBitangents()) {
+			tangentBuff.push_back(mesh->mTangents[v].x);
+			tangentBuff.push_back(mesh->mTangents[v].y);
+			tangentBuff.push_back(mesh->mTangents[v].z);
+		}
 	}
 
 	//Procesar la topología (cómo están ordenados los vértices)
@@ -150,7 +151,10 @@ int main(int argc, char** argv) {
 		pyramidVertexPos, pyramidVertexColor, pyramidVertexNormal, pyramidVertexTexCoord, pyramidVertexTangent);
 	
 	//Carga Assimp
-	assimpImportOBJ("./sphere.obj");
+	assimpImportOBJ("./cylinder.obj");
+	//assimpImportOBJ("./sphere.obj");
+	//assimpImportOBJ("./babyYoda.obj");
+	std::cout << indexBuff.size()/3 << " " << vertexBuff.size()/3 << std::endl;
 	objId5 = IGlib::createObj(indexBuff.size()/3, vertexBuff.size()/3, indexBuff.data(), 
 		vertexBuff.data(), colorBuff.data(), normalBuff.data(), textureCoordBuff.data(), tangentBuff.data());
 
@@ -271,7 +275,8 @@ void idleFunc() {
 	glm::mat4 pyramid_translate = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 3.0f, 0.0f));
 	glm::mat4 model_pyramid = pyramid_rotate * pyramid_translate;
 
-
+	glm::mat4 assimp_model_rotate = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 assimp_model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 4.0f)) * assimp_model_rotate;
 
 	//Establecemos el estado de los modelos
 	IGlib::setModelMat(objId, model_frist_cube);
@@ -279,7 +284,7 @@ void idleFunc() {
 	IGlib::setModelMat(objId3, model_third_cube);
 
 	IGlib::setModelMat(objId4, model_pyramid);
-	IGlib::setModelMat(objId5, model_pyramid);
+	IGlib::setModelMat(objId5, assimp_model);
 }
 
 glm::vec3 calcularPuntoBezier(glm::vec3 p0, glm::vec3 p1, glm::vec3 p2, float t) {

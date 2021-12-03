@@ -1,14 +1,14 @@
 ﻿cl : línea de comandos warning D9035: La opción 'Gm' está desusada y se quitará en próximas versiones
   main.cpp
-C:\Users\gonza\OneDrive\Escritorio\PRAC 1 G3D WORKBENCH\GitHub Workbench\3DGraphicsShaders\P1GLSL\scr\main.cpp(212,22): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
+C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\WORKBENCH\3DGraphicsShaders\P1GLSL\scr\main.cpp(216,22): warning C4244: '=': conversión de 'double' a 'T'; posible pérdida de datos
           with
           [
               T=float
           ]
-C:\Users\gonza\OneDrive\Escritorio\PRAC 1 G3D WORKBENCH\GitHub Workbench\3DGraphicsShaders\P1GLSL\scr\main.cpp(286,27): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\gonza\OneDrive\Escritorio\PRAC 1 G3D WORKBENCH\GitHub Workbench\3DGraphicsShaders\P1GLSL\scr\main.cpp(288,27): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\gonza\OneDrive\Escritorio\PRAC 1 G3D WORKBENCH\GitHub Workbench\3DGraphicsShaders\P1GLSL\scr\main.cpp(388,15): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\gonza\OneDrive\Escritorio\PRAC 1 G3D WORKBENCH\GitHub Workbench\3DGraphicsShaders\P1GLSL\scr\main.cpp(389,15): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
-  P1GLSL.vcxproj -> C:\Users\gonza\OneDrive\Escritorio\PRAC 1 G3D WORKBENCH\GitHub Workbench\3DGraphicsShaders\P1GLSL\Debug\P1GLSL.exe
+C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\WORKBENCH\3DGraphicsShaders\P1GLSL\scr\main.cpp(291,27): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\WORKBENCH\3DGraphicsShaders\P1GLSL\scr\main.cpp(293,27): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\WORKBENCH\3DGraphicsShaders\P1GLSL\scr\main.cpp(393,15): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\WORKBENCH\3DGraphicsShaders\P1GLSL\scr\main.cpp(394,15): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+  P1GLSL.vcxproj -> C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\WORKBENCH\3DGraphicsShaders\P1GLSL\Debug\P1GLSL.exe
   Copying native Assimp libraries...
-  C:\Users\gonza\OneDrive\Escritorio\PRAC 1 G3D WORKBENCH\GitHub Workbench\3DGraphicsShaders\P1GLSL\Debug\P1GLSL.deps.json
+  C:\Users\gonza\OneDrive\Escritorio\Computer Science\MIGJRV\1 CUATRI\G3D\Practica I\WORKBENCH\3DGraphicsShaders\P1GLSL\Debug\P1GLSL.deps.json
